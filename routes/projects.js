@@ -6,7 +6,8 @@ const router = express.Router();
 
 router.get('/', auth, async (req, res) => {
   try {
-    const projects = await ProjectModel.findOne({ client_id: req.tokenData._id });
+    const projects = await ProjectModel.find({ client_id: req.tokenData._id });
+    if (!projects) return res.sendStatus(400);
     res.json(projects);
   } catch (err) {
     console.log(err);
@@ -14,7 +15,19 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
-router.get('/allProjects', authAdmin, async (req, res) => {
+router.get('/project/:projectID', auth, async (req, res) => {
+  try {
+    const projectID = req.params.projectID;
+    const projects = await ProjectModel.findOne({ _id: projectID });
+    if (!projects) return res.sendStatus(400);
+    res.json(projects);
+  } catch (err) {
+    console.log(err);
+    res.status(502).json({ err });
+  }
+});
+
+router.get('/myProjects', authAdmin, async (req, res) => {
   try {
     const projects = await ProjectModel.find({ user_id: req.tokenData._id });
     res.json(projects);
@@ -33,7 +46,7 @@ router.post('/', authAdmin, async (req, res) => {
     const project = new ProjectModel(req.body);
     if (req.body.client_email) {
       const user = await UserModel.findOne({ email: req.body.client_email });
-      if (!user) return res.status(400).json({ err: 'client not found' });
+      if (!user) return res.status(401).json({ err: 'client not found' });
       project.client_id = user._id;
     }
     project.user_id = req.tokenData._id;
@@ -54,7 +67,7 @@ router.post('/task/:projectID', authAdmin, async (req, res) => {
   try {
     const projectID = req.params.projectID;
     const project = await ProjectModel.findOne({ _id: projectID });
-    if (!project) return res.status(400).json({ err: 'project not found' });
+    if (!project) return res.status(401).json({ err: 'project not found' });
     project.tasks.push({
       name: req.body.name,
       status: { name: '', style: 'rgb(121, 126, 147)' },
@@ -76,7 +89,7 @@ router.put('/status/:projectID', authAdmin, async (req, res) => {
   try {
     const projectID = req.params.projectID;
     const project = await ProjectModel.findOne({ _id: projectID });
-    if (!project) return res.status(400).json({ err: 'project not found' });
+    if (!project) return res.status(401).json({ err: 'project not found' });
     project.status.name = req.body.name;
     project.status.style = req.body.style;
     await project.save();
@@ -97,9 +110,9 @@ router.put('/task', authAdmin, async (req, res) => {
     const projectID = req.query.projectID;
     const taskID = req.query.taskID;
     const project = await ProjectModel.findOne({ _id: projectID });
-    if (!project) return res.status(400).json({ err: 'project not found' });
+    if (!project) return res.status(401).json({ err: 'project not found' });
     const task = project.tasks.find((task) => task._id == taskID);
-    if (!task) return res.status(400).json({ err: 'task not found' });
+    if (!task) return res.status(401).json({ err: 'task not found' });
     task.status.name = req.body.name;
     task.status.style = req.body.style;
     await project.save();
@@ -115,7 +128,7 @@ router.put('/changeIsOpen/:projectID', authAdmin, async (req, res) => {
   try {
     const projectID = req.params.projectID;
     const project = await ProjectModel.findOne({ _id: projectID });
-    if (!project) return res.status(400).json({ err: 'project not found' });
+    if (!project) return res.status(401).json({ err: 'project not found' });
     project.is_open = !project.is_open;
     await project.save();
 

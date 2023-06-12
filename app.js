@@ -3,7 +3,7 @@ const path = require('path');
 const http = require('http');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-const corsOptions = require('./config/corsOptions');;
+const corsOptions = require('./config/corsOptions');
 const credentials = require('./middlewares/credentials');
 
 const { routesInit } = require('./routes/configRoutes');
@@ -18,7 +18,7 @@ app.use(cors(corsOptions));
 
 app.use(express.json());
 
-app.use(cookieParser())
+app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public')));
 

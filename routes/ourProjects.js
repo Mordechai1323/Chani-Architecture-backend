@@ -4,14 +4,29 @@ const { authAdmin } = require('../middlewares/auth');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-  let perPage = Number(req.query.perPage) || 10;
+  let perPage = Number(req.query.perPage) || 12;
   let page = Number(req.query.page) || 1;
+  let sort = req.query.sort || '_id';
+  let reverse = req.query.reverse == 'true' ? -1 : 1;
   let search = req.query.s;
   let searchExp = new RegExp(search, 'i');
   try {
     const ourProject = await OurProjectModel.find({ name: searchExp })
       .limit(perPage)
-      .skip(perPage * (page - 1));
+      .skip(perPage * (page - 1))
+      .sort({ [sort]: reverse });
+
+    res.json(ourProject);
+  } catch (err) {
+    console.log(err);
+    res.status(502).json({ err });
+  }
+});
+
+router.get('/:projectID', async (req, res) => {
+  try {
+    const projectID = req.params.projectID;
+    const ourProject = await OurProjectModel.findOne({ _id: projectID });
 
     res.json(ourProject);
   } catch (err) {
@@ -53,7 +68,5 @@ router.post('/', authAdmin, async (req, res) => {
 //       res.status(502).json(err);
 //     }
 //   });
-
-
 
 module.exports = router;

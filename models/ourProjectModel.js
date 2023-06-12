@@ -4,7 +4,7 @@ const Joi = require('joi');
 const ourProjectSchema = new mongoose.Schema({
   name: String,
   info: String,
-  mainImage: String,
+  main_image: String,
   images: {
     type: [String],
   },
