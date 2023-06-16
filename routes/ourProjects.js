@@ -51,22 +51,6 @@ router.post('/', authAdmin, async (req, res) => {
   }
 });
 
-// TO DO
-// router.post('/uploadImage', auth, async (req, res) => {
-//     try {
-//       upload(req, res, async (err) => {
-//         if (err || !req.file) {
-//           console.log('err :' + err);
-//           return res.status(400).json({ err: 'only image' });
-//         } else {
-//           let updateData = await UserModel.updateOne({ _id: req.tokenData._id }, { img_url: 'usersImg/' + req.file.filename });
-//           res.json(updateData);
-//         }
-//       });
-//     } catch (err) {
-//       console.log(err);
-//       res.status(502).json(err);
-//     }
-//   });
+
 
 module.exports = router;

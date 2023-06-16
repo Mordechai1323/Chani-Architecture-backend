@@ -16,6 +16,7 @@ const {
   validatePasswordOneTimeCode,
 } = require('../models/userModel');
 const { auth, authAdmin, authRefresh, validateHuman } = require('../middlewares/auth');
+const { forgetPassword } = require('../middlewares/sendEmail');
 
 const router = express.Router();
 
@@ -176,7 +177,7 @@ router.post('/forgotPassword', async (req, res) => {
     user.one_time_code = await bcrypt.hash(onTimeCode.toString(), 10);
     const forgotPasswordToken = generateOneTimeCodeToken(user._id);
     await user.save();
-    sendEmail(req.body.email, user.name, onTimeCode);
+    forgetPassword(req.body.email, user.name, onTimeCode);
     res.status(200).json({ forgotPasswordToken });
   } catch (err) {
     console.log(err);

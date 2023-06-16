@@ -7,6 +7,8 @@ const projectSchema = new mongoose.Schema({
   project_name: String,
   client_id: String,
   client_email: String,
+  notes: String,
+  file: String,
   date_created: {
     type: Date,
     default: Date.now,
@@ -52,6 +54,7 @@ exports.validateProject = (reqBody) => {
     project_name: Joi.string().min(2).max(150).required(),
     client_email: Joi.string().min(2).max(150).email().allow(null, ''),
     completion_date: Joi.date().allow(null, ''),
+    notes: Joi.string().min(2).max(15000).allow(null, ''),
   });
 
   return joiSchema.validate(reqBody);
