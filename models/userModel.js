@@ -84,8 +84,8 @@ exports.validatePasswordOneTimeCode = (reqBody) => {
   return joiSchema.validate(reqBody);
 };
 
-exports.generateAccessToken = (userId, role) => {
-  return jwt.sign({ _id: userId, role }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: process.env.ACCESS_TOKEN_EXPIRATION });
+exports.generateAccessToken = (userId, role, email) => {
+  return jwt.sign({ _id: userId, role, email }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: process.env.ACCESS_TOKEN_EXPIRATION });
 };
 
 exports.generateRefreshToken = (userId, role) => {

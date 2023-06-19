@@ -75,7 +75,7 @@ router.post('/register', async (req, res) => {
     const user = new UserModel(req.body);
     user.password = await bcrypt.hash(user.password, 10);
 
-    const accessToken = generateAccessToken(user._id, user.role);
+    const accessToken = generateAccessToken(user._id, user.role, user.email);
     const refreshToken = generateRefreshToken(user._id, user.role);
     user.refresh_tokens = [refreshToken];
 
@@ -109,7 +109,7 @@ router.post('/login', async (req, res) => {
     const match = await bcrypt.compare(req.body.password, user.password);
     if (!match) return res.sendStatus(401);
 
-    const accessToken = generateAccessToken(user._id, user.role);
+    const accessToken = generateAccessToken(user._id, user.role, user.email);
     const refreshToken = generateRefreshToken(user._id, user.role);
     if (!user.refresh_tokens) user.refresh_tokens = [refreshToken];
     else user.refresh_tokens.push(refreshToken);
@@ -132,7 +132,7 @@ router.get('/refreshToken', authRefresh, async (req, res) => {
       await user.save();
       return res.status(403).json({ err: 'fail validating token' });
     }
-    const accessToken = generateAccessToken(user._id, user.role);
+    const accessToken = generateAccessToken(user._id, user.role, user.email);
     res.json({ accessToken, name: user.name, role: user.role, img_url: user.img_url });
   } catch (err) {
     return res.status(403).json({ err: 'fail validating token' });

@@ -3,10 +3,12 @@ const path = require('path');
 const http = require('http');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const schedule = require('node-schedule');
 const corsOptions = require('./config/corsOptions');
 const credentials = require('./middlewares/credentials');
 
 const { routesInit } = require('./routes/configRoutes');
+const { checkCompletionDates } = require('./middlewares/checkCompletionDates');
 
 require('./db/mongoConnect');
 
@@ -23,6 +25,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 routesInit(app);
+
+schedule.scheduleJob('0 6 * * *', async () => {
+  await checkCompletionDates();
+});
 
 const server = http.createServer(app);
 

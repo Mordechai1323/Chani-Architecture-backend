@@ -14,7 +14,6 @@ const projectSchema = new mongoose.Schema({
     default: Date.now,
   },
   completion_date: Date,
-  is_open: { type: Boolean, default: false },
   status: {
     name: { type: String, default: '' },
     style: { type: String, default: 'rgb(121, 126, 147)' },

@@ -172,3 +172,286 @@ exports.informationUpdated = (to) => {
 
   sgMail.send(msg);
 };
+
+exports.createAccount = (to) => {
+  const msg = {
+    to,
+    from: 'thinkfunmail@gmail.com',
+    subject: 'Create an account to receive updates',
+    html: `
+              <!DOCTYPE html>
+          <html>
+            <head>
+              <title>Chani Architect - Project Update</title>
+              <style>
+                body {
+                  font-family: Arial, sans-serif;
+                  background-color: #3e3e3e;
+                  padding: 20px;
+                  color: #ffffff;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+            width: 100%;
+            min-height: 320px;
+                }
+
+                .container {
+                  background-color: #eaeaeb;
+                  border-radius: 10px;
+                  padding: 20px;
+                  max-width: 600px;
+                  margin: 0 auto;
+                  color: #3e3e3e;
+                  text-align: center;
+                  min-height: 240px;
+                  width: 90%;
+                }
+
+                p {
+                  line-height: 1.5;
+                }
+
+                .button {
+                  display: inline-block;
+                  background-color: #3e3e3e;
+                  color: #eaeaeb;
+                  text-decoration: none;
+                  padding: 10px 20px;
+                  border-radius: 5px;
+                  margin-top: 20px;
+                }
+              </style>
+            </head>
+            <body>
+              <div class="container">
+                <h1>Welcome to Chani Architect</h1>
+                <p>Dear Client,</p>
+                <p>
+                  We are excited to provide you with an update on your project. In order to view the project details, including its status and comments from the architect, we kindly invite
+                  you to create an account on our website.
+                </p>
+                <p>To create your account, simply click on the button below:</p>
+                <a href="https://chani-architecture.netlify.app/logIn" class="button">Create Account</a>
+                <p>We look forward to sharing the progress of your project with you.</p>
+                <p>Best regards,</p>
+                <p>The Chani Architect Team</p>
+              </div>
+            </body>
+          </html>
+
+    
+    `,
+  };
+
+  sgMail.send(msg);
+};
+
+exports.newProject = (to, projectName) => {
+  const msg = {
+    to,
+    from: 'thinkfunmail@gmail.com',
+    subject: 'Chani Architect - New Project',
+    html: `
+    <!DOCTYPE html>
+<html>
+<head>
+    <title>Chani Architect - New Project Notification</title>
+    <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #3e3e3e;
+      padding: 20px;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+width: 100%;
+min-height: 320px;
+    }
+
+    .container {
+      background-color: #eaeaeb;
+      border-radius: 10px;
+      padding: 20px;
+      max-width: 600px;
+      margin: 0 auto;
+      color: #3e3e3e;
+      text-align: center;
+      min-height: 240px;
+      width: 90%;
+    }
+
+    p {
+      line-height: 1.5;
+    }
+
+    .button {
+      display: inline-block;
+      background-color: #3e3e3e;
+      color: #eaeaeb;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Chani Architect</h1>
+        <p>Dear Customer,</p>
+        <p>Hello, Project ${projectName} is now available in our system. Please log in to view the project's status and access more details about it.</p>
+        <p>To log in and access your personal area, click on the button below:</p>
+        <a href="https://chani-architecture.netlify.app/logIn" class="button">Log In</a>
+        <p>Thank you for your ongoing support. We're here to assist you with any inquiries or additional information you may need.</p>
+        <p>Best regards,</p>
+        <p>The Chani Architect Team</p>
+    </div>
+</body>
+</html>
+
+    `,
+  };
+
+  sgMail.send(msg);
+};
+
+exports.remainderProjects = (to, projectName) => {
+  const msg = {
+    to,
+    from: 'thinkfunmail@gmail.com',
+    subject: 'Chani Architect - Project Deadline Reminder',
+    html: `
+    <!DOCTYPE html>
+<html>
+<head>
+    <title>Chani Architect - Project Deadline Reminder</title>
+   <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #3e3e3e;
+      padding: 20px;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+width: 100%;
+min-height: 320px;
+    }
+
+    .container {
+      background-color: #eaeaeb;
+      border-radius: 10px;
+      padding: 20px;
+      max-width: 600px;
+      margin: 0 auto;
+      color: #3e3e3e;
+      text-align: center;
+      min-height: 240px;
+      width: 90%;
+    }
+
+    p {
+      line-height: 1.5;
+    }
+
+    .button {
+      display: inline-block;
+      background-color: #3e3e3e;
+      color: #eaeaeb;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hello Architect,</h1>
+        <p>We wanted to remind you that the deadline for ${projectName} is approaching. The project needs to be completed within the next 3 days.</p>
+        <p>Please ensure that all necessary tasks are completed, and the project is finalized within the given timeframe.</p>
+        <p>If you have any questions or require additional resources, please reach out to our team immediately.</p>
+        <p>Thank you for your attention to this matter.</p>
+        <p>Best regards,</p>
+        <p>The Chani Architect Team</p>
+    </div>
+</body>
+</html>
+
+    `,
+  };
+
+  sgMail.send(msg);
+};
+
+exports.newCustomerInquiry = (customer) => {
+  const msg = {
+    to: 'chanimoshe01@gmail.com',
+    from: 'thinkfunmail@gmail.com',
+    subject: 'Chani Architect - New Customer Inquiry',
+    html: `
+    <!DOCTYPE html>
+          <html>
+          <head>
+              <title>Chani Architect - New Customer Inquiry</title>
+              <style>
+                  body {
+                    font-family: Arial, sans-serif;
+                    background-color: #3e3e3e;
+                    padding: 20px;
+                    color: #ffffff;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+              width: 100%;
+              min-height: 320px;
+                  }
+                  .container {
+                    background-color: #eaeaeb;
+                    border-radius: 10px;
+                    padding: 20px;
+                    max-width: 600px;
+                    margin: 0 auto;
+                    color: #3e3e3e;
+                    text-align: center;
+                    min-height: 240px;
+                    width: 90%;
+                  }
+                  .container ul{
+                    list-style: none;
+                }
+
+                  p {
+                    line-height: 1.5;
+                  }
+
+                 
+                </style>
+          </head>
+          <body>
+              <div class="container">
+                  <h1>Hello Architect,</h1>
+                  <p>We are pleased to inform you that Customer ${
+                    customer.name
+                  } has shown interest in the services of Chani Architecture. They have provided the following contact details:</p>
+                  <ul>
+                      <li>Phone Number: ${customer.phone}</li>
+                      <li>Email: ${customer.email}</li>
+                      <li>Message: ${customer?.message ? customer?.message : '-'}</li>
+                  </ul>
+                  <p>Please acknowledge this inquiry and reach out to the customer to discuss their requirements and provide further information about our services.</p>
+                  <p>If you require any assistance or have any questions, please don't hesitate to contact our team.</p>
+                  <p>Thank you for your attention to this matter.</p>
+                  <p>Best regards,</p>
+                  <p>The Chani Architect Team</p>
+              </div>
+          </body>
+          </html>
+
+    `,
+  };
+
+  sgMail.send(msg);
+};
